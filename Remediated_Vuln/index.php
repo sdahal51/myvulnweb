@@ -4,14 +4,16 @@ require('includes/db_connect.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
     $id= $_POST['id'];
-    //echo $id;
-    $query= "SELECT * FROM PII WHERE id = '$id'";
+    // THe fix for the SQLi vulnerability. escape special characters before passing on to the SQL db for execution
+    $id_= mysqli_real_escape_string($conn, $id);
+
+    echo $id_;
+    $query= "SELECT * FROM PII WHERE id = '$id_'";
     $retval= mysqli_query($conn, $query);
 
     if(! $retval){
         die('Woops! Could not retrieve data, check your input: ' .mysqli_error());   }
 
-    echo "Successfully returned your information";
 }
 ?>
 
@@ -22,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         <link rel="stylesheet" href="styles/style.css">
     </head>
     <header>
-        Welcome Ginger.io team to my vulnerable HR application
+        Welcome to my vulnerable HR application!!  Created by Sushant
     </header>
 
     <div class="titleDiv">
